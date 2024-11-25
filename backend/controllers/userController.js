@@ -45,7 +45,14 @@ const createUser = async (req, res) => {
     const user = await User.create({username, email, password, isAdmin, teams});
     res.status(200).json(user);
   } catch (error) {
-    res.status(400).json({error: error.message});
+    // for duplicate field error:
+    if (error.code === 11000) {
+      const field = Object.keys(error.keyValue)[0]; // no idea what this is, ChatGPT, but it takes the value causing the error (username or email)
+      return res.status(400).json({ error: `${field} already in use`})
+    } else {
+      // for any other error
+      res.status(400).json({error: error.message});
+    }
   }
 }
 

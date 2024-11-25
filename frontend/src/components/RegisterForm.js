@@ -1,42 +1,63 @@
 import { useState } from "react";
 import { useUsersContext } from '../hooks/useUsersContext';
+import { useNavigate } from 'react-router-dom';
 
 const RegisterForm = () => {
   const { dispatch } = useUsersContext();
+  const navigate = useNavigate();
 
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const user = {username, email, password};
+    let user = {
+      username: username,
+      email: email,
+      password: password
+    };
 
-    const response = await fetch('http://localhost:4000/api/users', {
-      method: 'POST',
-      body: JSON.stringify(user),
-      headers: {
-        'Content-Type': 'application/json'
+    const user2 = {username, email, password};
+
+    let emptyFields = '';
+
+    for (let [name, value] of Object.entries(user)) {
+      if (!value) {
+        emptyFields += `<p>${name} is empty</p>`;
       }
-    });
-    const json = await response.json();
+    }
 
-    if (!response.ok) {
-      setError(json.error);
+    if (!emptyFields) {
+      const response = await fetch('http://localhost:4000/api/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+      });
+      const json = await response.json();
+  
+      if (response.ok) {
+        setUsername('');
+        setEmail('');
+        setPassword('');
+        setError('');
+        console.log('new user added', json);
+        dispatch({type: 'CREATE_USER', payload: json});
+        navigate('/Teams/'+json._id);
+      } else {
+        setError(json.error);
+      }
     } else {
-      setUsername('');
-      setEmail('');
-      setPassword('');
-      setError(null);
-      console.log('new user added', json);
-      dispatch({type: 'CREATE_USER', payload: json});
+      setError(emptyFields);
     }
   }
 
   return (
-    <form className="create" onSubmit={handleSubmit}>
+    <form id="register-form" onSubmit={handleSubmit}>
       <h3>Register</h3>
 
       <label>Username:</label>
@@ -60,7 +81,9 @@ const RegisterForm = () => {
         value={password}
       />
 
-      <button>Register</button>
+      <button>Create User</button>
+
+      {error && <div className="error-message" dangerouslySetInnerHTML={{ __html: error }} />}
     </form>
   )
 };

@@ -1,13 +1,17 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useUsersContext } from '../hooks/useUsersContext';
 
 // components 
 import RegisterForm from '../components/RegisterForm';
+import LoginForm from '../components/LoginForm';
 import UserDetails from '../components/UserDetails';
 
 const Home = () => {
+  // usersContext for local state update
   const {users, dispatch} = useUsersContext();
 
+  // database fetch
   useEffect(() => {
     const fetchUsers = async () => {
       // full URL for now, I wanna route it using setupProxy.js but it currently doesn't work
@@ -22,14 +26,26 @@ const Home = () => {
     fetchUsers();
   }, [])
 
+  // state to manage buttons
+  const [action, setAction] = useState(null); 
+  const navigate = useNavigate();
+
+  // Handle button clicks
+  const handleLoginClick = () => setAction('login');
+  const handleRegisterClick = () => setAction('register');
+  const handleGuestClick = () => navigate('/Teams');
+
   return (
     <div className="home">
-      <div className="users">
-        {users && users.map((user) => (
-          <UserDetails key={user._id} user={user}/>
-        ))}
-      </div>
-      <RegisterForm/>
+      {action === 'login' && (
+        <LoginForm/>
+      )}
+      {action === 'register' && (
+        <RegisterForm/>
+      )}
+      <button id="login-button" onClick={handleLoginClick}>Log in</button>
+      <button id="register-button" onClick={handleRegisterClick}>Register</button>
+      <button id="guest-button" onClick={handleGuestClick}>Continue as guest</button>
     </div>
   )
 }

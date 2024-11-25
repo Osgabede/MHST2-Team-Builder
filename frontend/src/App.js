@@ -1,8 +1,9 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // pages & components
-import Home from './pages/Home'
-import Navbar from './components/Navbar'
+import Home from './pages/Home';
+import Teams from './pages/Teams';
+import Navbar from './components/Title';
 
 function App() {
   return (
@@ -15,6 +16,10 @@ function App() {
               path="/"
               element={<Home />}
             />
+            <Route
+              path="/Teams/:id"
+              element={<Teams/>}
+            ></Route>
           </Routes>
         </div>
       </BrowserRouter>
