@@ -4,7 +4,8 @@ const {
   getUser,
   createUser,
   deleteUser,
-  updateUser
+  updateUser,
+  loginUser
 } = require('../controllers/userController');
 
 // creates instance of router
@@ -19,11 +20,15 @@ router.get('/:id', getUser);
 // POST a new User
 router.post('/', createUser);
 
+// LOGIN a User
+router.post('/login', loginUser);
+
 // DELETE a User
 router.delete('/:id', deleteUser);
 
 // UPDATE a User
 router.patch('/:id', updateUser);
+
 
 // export the router
 module.exports = router;

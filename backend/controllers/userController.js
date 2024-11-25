@@ -1,5 +1,7 @@
 const User = require('../models/userModel');
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 // ---------- GET all users ----------
 const getUsers = async (req, res) => {
@@ -42,7 +44,10 @@ const createUser = async (req, res) => {
 
   // add doc to database
   try {
-    const user = await User.create({username, email, password, isAdmin, teams});
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = await User.create({username, email, password: hashedPassword, isAdmin, teams});
     res.status(200).json(user);
   } catch (error) {
     // for duplicate field error:
@@ -95,11 +100,38 @@ const updateUser = async (req, res) => {
   res.status(200).json(user);
 }
 
+// ---------- LOGIN a user ----------
+const loginUser = async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    const user = await User.findOne({ username });
+
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(401).json({ error: 'Invalid credentials' });
+
+    // Generate JWT
+    const token = jwt.sign(
+      { id: user._id, username: user.username, isAdmin: user.isAdmin }, // Payload
+      process.env.JWT_SECRET, // Secret key
+      { expiresIn: '1h' } // Token expiration time
+    );
+
+    res.status(200).json({ token, user: { id: user._id, username: user.username, isAdmin: user.isAdmin } });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+}
+
 // ---------- Exports ----------
 module.exports = {
   getUsers,
   getUser,
   createUser,
   deleteUser,
-  updateUser
+  updateUser,
+  loginUser
 }
