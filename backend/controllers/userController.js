@@ -1,4 +1,5 @@
 const User = require('../models/userModel');
+const Team = require('../models/teamModel');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -31,6 +32,31 @@ const getUser = async (req, res) => {
   // returns the user
   res.status(200).json(user);
 }
+
+// ---------- GET teams of a specific user ----------
+const getUserTeams = async (req, res) => {
+  const { id } = req.params;
+
+  // Check if the provided ID is valid
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({error: 'Couldn\'t find user'});
+  }
+
+  try {
+    // Find the user and populate their teams
+    const user = await User.findById(id).populate('teams');
+
+    if (!user) {
+      return res.status(400).json({error: 'Couldn\'t find user'});
+    }
+
+    // Return the user's teams
+    res.status(200).json({ teams: user.teams });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
 
 // ---------- CREATE new user ----------
 const createUser = async (req, res) => {
@@ -119,7 +145,16 @@ const loginUser = async (req, res) => {
       { expiresIn: '1h' } // Token expiration time
     );
 
-    res.status(200).json({ token, user: { id: user._id, username: user.username, isAdmin: user.isAdmin } });
+    // Send token and user data in response
+    res.status(200).json({
+      token,
+      user: {
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        isAdmin: user.isAdmin
+      }
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error' });
@@ -130,6 +165,7 @@ const loginUser = async (req, res) => {
 module.exports = {
   getUsers,
   getUser,
+  getUserTeams,
   createUser,
   deleteUser,
   updateUser,

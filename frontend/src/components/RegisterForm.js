@@ -20,8 +20,6 @@ const RegisterForm = () => {
       password: password
     };
 
-    const user2 = {username, email, password};
-
     let emptyFields = '';
 
     for (let [name, value] of Object.entries(user)) {
@@ -39,15 +37,30 @@ const RegisterForm = () => {
         body: JSON.stringify(user)
       });
       const json = await response.json();
-  
+
       if (response.ok) {
         setUsername('');
         setEmail('');
         setPassword('');
         setError('');
-        console.log('new user added', json);
-        dispatch({type: 'CREATE_USER', payload: json});
-        navigate('/Teams/'+json._id);
+        console.log('New user added', json);
+
+        // Log in the user automatically after registration
+        const loginResponse = await fetch('http://localhost:4000/api/users/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ username: user.username, password: user.password })
+        });
+        const tokenJson = await loginResponse.json();
+
+        if (loginResponse.ok) {
+          dispatch({ type: 'SET_AUTH', payload: { user: json, token: tokenJson.token } });
+          navigate('/Teams/' + json.username);
+        } else {
+          setError(tokenJson.error);
+        }
       } else {
         setError(json.error);
       }

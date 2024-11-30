@@ -1,44 +1,59 @@
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { useUsersContext } from '../hooks/useUsersContext';
+import { useNavigate } from 'react-router-dom';
 
 const Teams = () => {
-  const { id } = useParams(); // Destructure 'id' from params
-  const [user, setUser] = useState(null); // State to store user data
-  const [loading, setLoading] = useState(true); // State for loading
+  const { auth, dispatch } = useUsersContext();
+  const navigate = useNavigate();
+  const [teams, setTeams] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const getUser = async () => {
+    // Ensure that the user is authenticated before making the request
+    if (!auth || !auth.user) {
+      navigate('/');
+      return;
+    }
+
+    const fetchTeams = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/api/users/${id}`, {
-          method: 'GET',
+        const response = await fetch(`http://localhost:4000/api/users/${auth.user._id}/teams`, {
           headers: {
-            'Content-Type': 'application/json',
-          },
+            'Authorization': `Bearer ${auth.token}` // Include the token for authentication
+          }
         });
-        const json = await response.json();
-        setUser(json); // Save user data to state
-      } catch (error) {
-        console.error('Error fetching user:', error);
-      } finally {
-        setLoading(false); // Stop loading
+        const data = await response.json();
+
+        if (response.ok) {
+          setTeams(data.teams);
+        } else {
+          setError(data.error);
+        }
+      } catch (err) {
+        console.error('Error fetching teams:', err);
+        setError('An error occurred while fetching teams.');
       }
     };
 
-    getUser();
-  }, [id]); // Re-run effect if 'id' changes
+    fetchTeams();
+  }, [auth, navigate]);
 
-  if (loading) {
-    return <p>Loading...</p>; // Show loading indicator while fetching data
-  }
-
-  if (!user) {
-    return <p>User not found!</p>; // Handle case where user data is not found
+  if (error) {
+    return <div className="error-message">{error}</div>;
   }
 
   return (
-    <div className="teams-page">
-      <h1>This is the teams page</h1>
-      <p>{/* can use anything from the user here with user.field*/}</p>
+    <div className="teams">
+      <h2>Your Teams</h2>
+      {teams.length === 0 ? (
+        <p>You don't have any teams yet.</p>
+      ) : (
+        <ul>
+          {teams.map(team => (
+            <li key={team._id}>{team.name}</li> // Adjust the properties as needed
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

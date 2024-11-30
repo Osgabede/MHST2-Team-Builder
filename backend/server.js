@@ -1,20 +1,21 @@
-// loads dotenv variables from .env 
+// Load dotenv variables from .env 
 require('dotenv').config();
 
-// requires
+// Requires
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const monstieRoutes = require('./routes/monsties');
 const userRoutes = require('./routes/users');
+const requireAuth = require('./middlewares/userAuthMiddleware'); // Import the auth middleware
 
-// creates an express app
+// Create an express app
 const app = express();
 
-// middleware
+// Middleware
 app.use(cors({
   origin: 'http://localhost:3000',
-  mehtods: 'GET, POST, DELETE, PATCH, PUT',
+  methods: 'GET, POST, DELETE, PATCH, PUT',
   credentials: true,
 }));
 app.use(express.json());
@@ -23,21 +24,21 @@ app.use((req, res, next) => {
   next();
 });
 
-// routes
+// Apply the middleware only to specific routes that require authentication
+app.use('/api/users/:id/teams', requireAuth);
+
+// Routes
 app.use('/api/monsties', monstieRoutes);
 app.use('/api/users', userRoutes);
 
-// conect to DB
+// Connect to DB
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
-    // listen for requests
+    // Listen for requests
     app.listen(process.env.PORT, () => {
-      console.log('connected to database & listening on port', process.env.PORT);
-    })
+      console.log('Connected to database & listening on port', process.env.PORT);
+    });
   })
   .catch((error) => {
-    console.log(error)
-  })
-
-
-
+    console.log(error);
+  });

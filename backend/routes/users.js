@@ -2,6 +2,7 @@ const express = require('express');
 const {
   getUsers,
   getUser,
+  getUserTeams,
   createUser,
   deleteUser,
   updateUser,
@@ -16,6 +17,9 @@ router.get('/', getUsers);
 
 // GET specific User
 router.get('/:id', getUser);
+
+// GET specific User's teams
+router.get('/:id/teams', getUserTeams);
 
 // POST a new User
 router.post('/', createUser);
