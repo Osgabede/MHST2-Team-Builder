@@ -14,7 +14,7 @@ const Home = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       // full URL for now, I wanna route it using setupProxy.js but it currently doesn't work
-      const response = await fetch('http://localhost:4000/api/users');
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/users`);
       const json = await response.json();
       
       if (response.ok) {

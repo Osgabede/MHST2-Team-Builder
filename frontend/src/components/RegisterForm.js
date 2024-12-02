@@ -29,7 +29,7 @@ const RegisterForm = () => {
     }
 
     if (!emptyFields) {
-      const response = await fetch('http://localhost:4000/api/users', {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/users`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -46,7 +46,7 @@ const RegisterForm = () => {
         console.log('New user added', json);
 
         // Log in the user automatically after registration
-        const loginResponse = await fetch('http://localhost:4000/api/users/login', {
+        const loginResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/users/login`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
