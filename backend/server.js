@@ -14,7 +14,7 @@ const app = express();
 
 // Middleware
 const allowedOrigins = [
-  'https://mhst2-team-builder-backend.onrender.com',
+  'https://mhst2-team-builder-frontend.onrender.com',
   'http://localhost:3000'
 ];
 app.use(cors({
