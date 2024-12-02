@@ -87,6 +87,40 @@ const createUser = async (req, res) => {
   }
 }
 
+// ---------- CREATE a new Team for a User ----------
+const createUserTeam = async (req, res) => {
+  const { id } = req.params; 
+  const { name, monsties } = req.body; 
+
+  // Validate the user ID
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: 'Invalid user ID format' });
+  }
+
+  try {
+    // Verify the user exists
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Create the new team
+    const team = await Team.create({
+      name,
+      userId: id, // Link the team to the user
+      monsties: monsties || [],
+    });
+
+    user.teams.push(team._id);
+    await user.save();
+
+    // Respond with the created team
+    res.status(201).json(team);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 // ---------- DELETE a user ----------
 const deleteUser = async (req, res) => {
   const { id } = req.params;
@@ -167,7 +201,8 @@ module.exports = {
   getUser,
   getUserTeams,
   createUser,
+  createUserTeam,
+  loginUser,
   deleteUser,
-  updateUser,
-  loginUser
+  updateUser
 }

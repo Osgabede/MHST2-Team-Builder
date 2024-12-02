@@ -5,7 +5,6 @@ import { useUsersContext } from '../hooks/useUsersContext';
 // components 
 import RegisterForm from '../components/RegisterForm';
 import LoginForm from '../components/LoginForm';
-import UserDetails from '../components/UserDetails';
 
 const Home = () => {
   // usersContext for local state update

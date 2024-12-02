@@ -4,9 +4,10 @@ const {
   getUser,
   getUserTeams,
   createUser,
+  createUserTeam,
+  loginUser,
   deleteUser,
-  updateUser,
-  loginUser
+  updateUser
 } = require('../controllers/userController');
 
 // creates instance of router
@@ -23,6 +24,9 @@ router.get('/:id/teams', getUserTeams);
 
 // POST a new User
 router.post('/', createUser);
+
+// POST a new Team for a specific User
+router.post('/:id/teams', createUserTeam);
 
 // LOGIN a User
 router.post('/login', loginUser);

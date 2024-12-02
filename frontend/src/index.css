@@ -27,6 +27,46 @@ h1 {
   column-gap: 0.5em;
 }
 
+/* Teams page */
+
+#teams-box {
+  width: 100%;
+  text-align: center;
+  display: grid;
+  grid-template: repeat(3, 1fr) / repeat(2, 1fr);
+  gap: 1em;
+}
+
+.team-box {
+  display: grid;
+  grid-template: auto repeat(3, 1fr) / repeat(2, 1fr);
+  text-align: center;
+  height: 300px;
+  border: 2px solid black;
+  border-radius: 12px;
+  background-color: white;
+}
+
+.blue-on-hover:hover {
+  color: blue;
+  border-color: blue;
+}
+
+.team-title {
+  grid-column: span 2;
+}
+
+.monstie-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: black;
+}
+
+.monstie-box img {
+  width: 40px;
+}
+
 /* forms css */
 form {
   display: flex;
