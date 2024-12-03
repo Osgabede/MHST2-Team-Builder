@@ -17,7 +17,7 @@ const Teams = () => {
 
     const fetchTeams = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/api/users/${auth.user._id}/teams`, {
+        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/users/${auth.user._id}/teams`, {
           headers: { 'Authorization': `Bearer ${auth.token}` },
         });
         const data = await response.json();
@@ -42,7 +42,7 @@ const Teams = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:4000/api/users/${auth.user._id}/teams`, {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/users/${auth.user._id}/teams`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
