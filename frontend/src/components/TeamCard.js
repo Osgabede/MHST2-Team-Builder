@@ -1,41 +1,49 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import MonstieBox from './MonstieBox';
 
-const TeamCard = ({ team }) => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [teamName, setTeamName] = useState(team.name);
+const TeamCard = ({ team, onClick, isSelected, onAddMonstieClick }) => {
+  const [showEditButtons, setShowEditButtons] = useState(false);
 
-  const handleEditToggle = () => setIsEditing(!isEditing);
-
-  const handleNameChange = (e) => {
-    setTeamName(e.target.value);
-  };
-
-  const handleNameSave = () => {
-    // Add logic to save the updated team name to the server here
-    setIsEditing(false);
-  };
+  useEffect(() => {
+    if (isSelected) {
+      setShowEditButtons(true);
+    } else {
+      setShowEditButtons(false);
+    }
+  }, [isSelected]);
 
   return (
-    <div className="team-box blue-on-hover">
+    <div className={`team-box ${isSelected ? 'selected' : 'blue-on-hover'}`} onClick={onClick}>
       <div className="team-title">
-        {isEditing ? (
-          <input
-            type="text"
-            value={teamName}
-            onChange={handleNameChange}
-            onBlur={handleNameSave}
-            autoFocus
-          />
-        ) : (
-          <h2 onClick={handleEditToggle}>{teamName}</h2>
+        <h2>{team.name}</h2>
+        {showEditButtons && (
+          <button aria-label="EditTeamName" className="edit-team-button">
+            <i className="fas fa-pencil-alt"></i>
+          </button>
         )}
       </div>
-      <div className="monsties-container">
-        {team.monsties.map((monstie) => (
-          <MonstieBox key={monstie._id} monstie={monstie} />
-        ))}
-      </div>
+      {Array.from({ length: 6 }).map((_, index) => {
+        if (team.monsties[index]) {
+          return (
+            <MonstieBox 
+              key={`monstie-${team.monsties[index]._id || index}`} 
+              monstie={team.monsties[index]} 
+            />
+          );
+        } else {
+          return (
+            showEditButtons && (
+              <button 
+                key={`add-monstie-${index}`} 
+                className={`add-monstie-button ${isSelected ? 'blue-on-hover' : ''}`} 
+                onClick={onAddMonstieClick}
+              >
+                +
+              </button>
+            )
+          );
+        }
+      })}
     </div>
   );
 };

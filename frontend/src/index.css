@@ -1,4 +1,5 @@
-/* global css */
+/* Global */
+
 html {
   display: grid;
   place-content: center;
@@ -15,6 +16,16 @@ body {
   background-color: greenyellow;
   text-align: center;
   margin: 0;
+  padding: 0 1em;
+}
+
+#root {
+  width: 100%;
+}
+
+.App {
+  height: 100vh;
+  overflow: hidden;
 }
 
 .title {
@@ -27,13 +38,26 @@ h1 {
   column-gap: 0.5em;
 }
 
+.display-none {
+  display: none;
+}
+
 /* Teams page */
+
+#teams > h2 {
+  margin-top: 0px;
+}
+
+#teams-box-wrapper {
+  height: 630px;
+  overflow: auto;
+}
 
 #teams-box {
   width: 100%;
   text-align: center;
   display: grid;
-  grid-template: repeat(3, 1fr) / repeat(2, 1fr);
+  grid-template: repeat(3, auto) / repeat(2, 1fr);
   gap: 1em;
 }
 
@@ -45,6 +69,8 @@ h1 {
   border: 2px solid black;
   border-radius: 12px;
   background-color: white;
+  justify-items: center;
+  align-items: center;
 }
 
 .blue-on-hover:hover {
@@ -53,7 +79,17 @@ h1 {
 }
 
 .team-title {
+  display: grid;
+  grid-template-columns: 25% 50% 25%;
+  width: 100%;
   grid-column: span 2;
+  align-items: end;
+  justify-items: center;
+}
+
+.team-title h2 {
+  grid-column: 2;
+  margin-bottom: 0;
 }
 
 .monstie-box {
@@ -67,7 +103,35 @@ h1 {
   width: 40px;
 }
 
-/* forms css */
+#create-team-button {
+  margin-top: 1em;
+}
+
+/* Edit Team page */
+
+#edit-team > h2 {
+  margin-top: 0px;
+}
+
+.edit-team-button {
+  font-size: 0.8em;
+  height: 25px;
+  width: 25px;
+  justify-self: start;
+  padding: 0;
+  margin-top: 5px;
+}
+
+.add-monstie-button {
+  font-size: 3em;
+  border-width: 0;
+  background-color: inherit;
+  height: 30px;
+  line-height: 0;
+  padding: 0;
+}
+
+/* Forms */
 form {
   display: flex;
   flex-direction: column;
@@ -89,4 +153,126 @@ form h3 {
 .error-message {
   color: red;
   margin-bottom: 0; 
+}
+
+/* Monstie Filter Modal */
+
+.monstie-modal-overlay {
+  position: fixed;
+  top: 0;
+  width: 382px;
+  height: 100%;
+  margin-left: -16px;
+  background-color: rgba(0, 0, 0, 0.7); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.monstie-modal {
+  box-sizing: border-box;
+  background-color: #ffffff; 
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 90%;
+  height: 50%;
+  max-width: 600px;
+  position: relative;
+}
+
+.monstie-modal h3 {
+  margin-top: 0;
+}
+
+.monstie-modal input,
+.monstie-modal select {
+  box-sizing: content-box;
+  margin-bottom: 10px;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.monstie-modal input {
+  width: 90%;
+}
+
+.monstie-modal select {
+  width: 40%;
+}
+
+.monstie-modal select:first-of-type {
+  margin-right: 5px;
+}
+
+.monstie-modal select:last-of-type {
+  margin-left: 5px;
+}
+
+#filtered-list-wrapper {
+  max-height: 65%;
+  width: 100%;
+  overflow: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+#filtered-list-wrapper::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}
+
+.monstie-list {
+  display: grid;
+  grid-template-columns: repeat(2, 50%);
+  list-style: none; 
+  padding: 0;
+  margin: 0;
+}
+
+.monstie-list-item {
+  display: flex;
+  align-items: center;
+  background-color: inherit;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  padding: 10px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.monstie-list-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.monstie-image {
+  width: 50px; /* Adjust size as needed */
+  height: 50px;
+  border-radius: 4px; /* Rounded corners for the image */
+  object-fit: cover; /* Ensures the image fits within the dimensions */
+  margin-right: 10px;
+}
+
+.monstie-name {
+  font-size: 16px;
+  color: #333;
+}
+
+.monstie-modal button {
+  background-color: #e74c3c; 
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.monstie-modal button:hover {
+  background-color: #c0392b; 
 }

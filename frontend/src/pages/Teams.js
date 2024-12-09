@@ -8,6 +8,7 @@ const Teams = () => {
   const navigate = useNavigate();
   const [teams, setTeams] = useState([]);
   const [error, setError] = useState(null);
+  const [selectedTeam, setSelectedTeam] = useState(null);
 
   useEffect(() => {
     if (!auth || !auth.user) {
@@ -18,7 +19,7 @@ const Teams = () => {
     const fetchTeams = async () => {
       try {
         const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/users/${auth.user._id}/teams`, {
-          headers: { 'Authorization': `Bearer ${auth.token}` },
+          headers: { Authorization: `Bearer ${auth.token}` },
         });
         const data = await response.json();
 
@@ -38,7 +39,7 @@ const Teams = () => {
   const handleCreateTeam = async () => {
     const teamName = prompt('Enter the name of the new team:');
     if (!teamName) {
-      return; // User canceled or left the prompt empty
+      return;
     }
 
     try {
@@ -46,15 +47,14 @@ const Teams = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${auth.token}`, // Include the token for authentication
+          Authorization: `Bearer ${auth.token}`,
         },
-        body: JSON.stringify({ name: teamName }), // Send the team name
+        body: JSON.stringify({ name: teamName }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        // Add the new team to the state
         setTeams((prevTeams) => [...prevTeams, data]);
       } else {
         setError(data.error);
@@ -65,20 +65,35 @@ const Teams = () => {
     }
   };
 
+  const handleTeamClick = (team) => {
+    setSelectedTeam(team); // Update state to set the selected team
+    const formattedName = team.name.replace(/ /g, '_');
+    navigate(`/Teams/${auth?.user?.username}/${formattedName}`, { state: { team } });
+  };
+
   if (error) {
     return <div className="error-message">{error}</div>;
   }
 
   return (
-    <div className="teams">
+    <div id="teams">
       <h2>{auth?.user?.username}'s Teams</h2>
       <p>Click on any team to edit it</p>
-      <div id="teams-box">
-        {teams.length === 0 ? (
-          <p>You don't have any teams yet.</p>
-        ) : (
-          teams.map((team) => <TeamCard key={team._id} team={team} />)
-        )}
+      <div id="teams-box-wrapper">
+        <div id="teams-box">
+          {teams.length === 0 ? (
+            <p>You don't have any teams yet.</p>
+          ) : (
+            teams.map((team) => (
+              <TeamCard
+                key={team._id}
+                team={team}
+                onClick={() => handleTeamClick(team)}
+                isSelected={selectedTeam && selectedTeam._id === team._id}
+              />
+            ))
+          )}
+        </div>
       </div>
       <button id="create-team-button" onClick={handleCreateTeam}>
         Add a new Team

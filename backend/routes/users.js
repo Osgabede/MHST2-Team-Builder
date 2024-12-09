@@ -5,6 +5,7 @@ const {
   getUserTeams,
   createUser,
   createUserTeam,
+  addMonstieToUserTeam,
   loginUser,
   deleteUser,
   updateUser
@@ -17,25 +18,28 @@ const router = express.Router();
 router.get('/', getUsers);
 
 // GET specific User
-router.get('/:id', getUser);
+router.get('/:userId', getUser);
 
 // GET specific User's teams
-router.get('/:id/teams', getUserTeams);
+router.get('/:userId/teams', getUserTeams);
 
 // POST a new User
 router.post('/', createUser);
 
 // POST a new Team for a specific User
-router.post('/:id/teams', createUserTeam);
+router.post('/:userId/teams', createUserTeam);
+
+// POST a new Monstie in a specific User Team
+router.post('/:userId/teams/:teamId/monsties', addMonstieToUserTeam);
 
 // LOGIN a User
 router.post('/login', loginUser);
 
 // DELETE a User
-router.delete('/:id', deleteUser);
+router.delete('/:userId', deleteUser);
 
 // UPDATE a User
-router.patch('/:id', updateUser);
+router.patch('/:userId', updateUser);
 
 
 // export the router

@@ -6,6 +6,7 @@ const arrayLimit = (val) => val.length <= 9;
 
 const monstieSchema = new Schema({
   name: { type: String, unique: true, required: true },
+  type: { type: String, enum: ["power", "tech", "speed"], required: true },
   attack: {
     physical: Number,
     fire: Number,
