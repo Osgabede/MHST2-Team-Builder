@@ -8,8 +8,7 @@ const geneSchema = new Schema({
   skillName: { type: String },
   type: { type: String, enum: ["power", "tech", "speed", "no type"], required: true },
   element: { type: String, enum: ["physical", "fire", "water", "thunder", "ice", "dragon"] },
-  description: { type: String },
-  monsties: [{ type: Schema.Types.ObjectId, ref: "Monstie" }]
+  description: { type: String }
 });
 
 module.exports = mongoose.model("Gene", geneSchema);

@@ -83,6 +83,7 @@ const EditTeam = () => {
         isSelected={true} // Mark as selected or set your own logic
         onAddMonstieClick={handleAddMonstieClick} // Pass function to handle click event
       />
+      <button id="back-to-teams">Back to Teams page</button>
       <MonstieModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

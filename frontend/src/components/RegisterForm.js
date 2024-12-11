@@ -43,7 +43,6 @@ const RegisterForm = () => {
         setEmail('');
         setPassword('');
         setError('');
-        console.log('New user added', json);
 
         // Log in the user automatically after registration
         const loginResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/users/login`, {

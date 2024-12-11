@@ -41,7 +41,6 @@ const LoginForm = () => {
         setUsername('');
         setPassword('');
         setError('');
-        console.log('Login successful', json);
 
         // Redirect to the Teams page
         navigate('/Teams/' + json.user.username);

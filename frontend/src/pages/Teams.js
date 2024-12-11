@@ -37,7 +37,10 @@ const Teams = () => {
   }, [auth, navigate]);
 
   const handleCreateTeam = async () => {
-    const teamName = prompt('Enter the name of the new team:');
+    const teamName = prompt('Enter the name of the new team:'); // TO FEAT: Make this open a modal to insert the name
+
+    // TO FEAT: Route into EditTeam page
+
     if (!teamName) {
       return;
     }

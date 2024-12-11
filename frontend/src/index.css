@@ -70,7 +70,15 @@ h1 {
   border-radius: 12px;
   background-color: white;
   justify-items: center;
-  align-items: center;
+}
+
+#delete-team {
+  height: min-content;
+  margin: 1em auto;
+  background-color: red;
+  color: white;
+  grid-row: 5;
+  grid-column: span 2;
 }
 
 .blue-on-hover:hover {
@@ -80,7 +88,7 @@ h1 {
 
 .team-title {
   display: grid;
-  grid-template-columns: 25% 50% 25%;
+  grid-template-columns: 1fr auto 1fr;
   width: 100%;
   grid-column: span 2;
   align-items: end;
@@ -89,7 +97,7 @@ h1 {
 
 .team-title h2 {
   grid-column: 2;
-  margin-bottom: 0;
+  margin: 1em 10px 0;
 }
 
 .monstie-box {
@@ -97,10 +105,11 @@ h1 {
   flex-direction: column;
   align-items: center;
   color: black;
+  margin-top: 1em;
 }
 
 .monstie-box img {
-  width: 40px;
+  width: 2.5em;
 }
 
 #create-team-button {
@@ -113,16 +122,29 @@ h1 {
   margin-top: 0px;
 }
 
-.edit-team-button {
+#edit-team > button {
+  width: 40%;
+  margin: 2em auto;
+}
+
+.edit-team-name-button {
   font-size: 0.8em;
-  height: 25px;
-  width: 25px;
+  height: 30px;
+  width: 30px;
   justify-self: start;
   padding: 0;
-  margin-top: 5px;
+}
+
+.team-box.selected {
+  height: 400px;
+}
+
+.team-box.selected .monstie-box, .team-box.selected .team-title {
+  font-size: 1.3em;
 }
 
 .add-monstie-button {
+  align-self: center;
   font-size: 3em;
   border-width: 0;
   background-color: inherit;

@@ -17,7 +17,7 @@ const TeamCard = ({ team, onClick, isSelected, onAddMonstieClick }) => {
       <div className="team-title">
         <h2>{team.name}</h2>
         {showEditButtons && (
-          <button aria-label="EditTeamName" className="edit-team-button">
+          <button aria-label="EditTeamName" className="edit-team-name-button">
             <i className="fas fa-pencil-alt"></i>
           </button>
         )}
@@ -45,6 +45,7 @@ const TeamCard = ({ team, onClick, isSelected, onAddMonstieClick }) => {
           );
         }
       })}
+      <button id="delete-team">Delete Team</button>
     </div>
   );
 };
