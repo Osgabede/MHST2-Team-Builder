@@ -28,6 +28,7 @@ const TeamCard = ({ team, onClick, isSelected, onAddMonstieClick }) => {
             <MonstieBox 
               key={`monstie-${team.monsties[index]._id || index}`} 
               monstie={team.monsties[index]} 
+              isSelected={isSelected}
             />
           );
         } else {

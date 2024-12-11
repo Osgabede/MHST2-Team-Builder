@@ -1,8 +1,8 @@
-const MonstieBox = ({ monstie }) => {
+const MonstieBox = ({ monstie, isSelected }) => {
   return (
     <div className="monstie-box">
       <img src={monstie.image || './img/placeholder.jpg'} alt={monstie.name} />
-      <span>{monstie.name}</span>
+      {isSelected && <span>{monstie.name}</span>}
     </div>
   );
 };
