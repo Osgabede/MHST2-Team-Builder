@@ -433,7 +433,7 @@ form h3 {
     font-size: 1.2em;
   }
 
-  .monstie-box.clickable {
+  .team-box.selected .monstie-box.clickable {
     margin-top: 0.3em;
     font-size: 1em;
   }
