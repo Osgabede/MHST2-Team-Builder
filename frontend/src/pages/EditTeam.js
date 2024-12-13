@@ -101,7 +101,7 @@ const EditTeam = () => {
   // ------------------- Edit Monstie function -------------------
   const handleEditMonstie = (monstie) => {
     const formattedName = team.name.replace(/ /g, '_');
-    navigate('/Teams/' + auth.user.username + "/" + formattedName + "/" + monstie.name, { state: { monstie }});
+    navigate('/Teams/' + auth.user.username + "/" + formattedName + "/" + monstie.name, { state: { monstie, team }});
   }
 
   if (!team) {

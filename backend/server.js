@@ -7,7 +7,6 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const monstieRoutes = require('./routes/monsties');
 const userRoutes = require('./routes/users');
-const geneRoutes = require('./routes/genes')
 const requireAuth = require('./middlewares/userAuthMiddleware'); // Import the auth middleware
 
 // Create an express app
@@ -36,7 +35,6 @@ app.use('/api/users/:id/teams', requireAuth);
 // Routes
 app.use('/api/monsties', monstieRoutes);
 app.use('/api/users', userRoutes);
-app.use('/api/genes', geneRoutes)
 
 // Connect to DB
 mongoose.connect(process.env.MONGO_URI)

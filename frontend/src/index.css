@@ -4,6 +4,7 @@ html {
   display: grid;
   place-content: center;
   background-color: black;
+  font-family: 'Monster Hunter Staggered', sans-serif;
 }
 
 body {
@@ -13,7 +14,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: greenyellow;
+  background-color: #D6B783;
   text-align: center;
   margin: 0;
   padding: 0 1em;
@@ -42,7 +43,18 @@ h1 {
   display: none;
 }
 
-/* Teams page */
+button {
+  cursor: pointer;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ------------------ PAGES ------------------ */
+
+/* --------- Teams page --------- */
 
 #teams > h2 {
   margin-top: 0px;
@@ -71,10 +83,10 @@ h1 {
   display: grid;
   grid-template: auto repeat(3, 1fr) / repeat(2, 1fr);
   text-align: center;
-  height: 300px;
-  border: 2px solid black;
+  height: 320px;
+  border: 2px solid #543A09;
   border-radius: 12px;
-  background-color: white;
+  background-color: #DFC79B;
   justify-items: center;
 }
 
@@ -88,10 +100,7 @@ h1 {
 }
 
 #delete-team:hover {
-  cursor: pointer;
   background-color: #c0392b;
-  transform: translateY(-2px);
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .blue-on-hover:hover {
@@ -122,14 +131,16 @@ h1 {
 }
 
 .monstie-box img {
-  width: 2.5em;
+  width: 3em;
+  padding: 0.2em;
+  background-color: #2A261B;
 }
 
 #create-team-button {
   margin-top: 1em;
 }
 
-/* Edit Team page */
+/* --------- Edit Team page --------- */
 
 #edit-team > h2 {
   margin-top: 0px;
@@ -142,6 +153,7 @@ h1 {
 
 .edit-team-name-button {
   font-size: 0.8em;
+  background-color:#805e1f;
   height: 30px;
   width: 30px;
   justify-self: start;
@@ -149,11 +161,20 @@ h1 {
 }
 
 .team-box.selected {
-  height: 400px;
+  height: 550px;
 }
 
 .team-box.selected .monstie-box, .team-box.selected .team-title {
   font-size: 1.3em;
+}
+
+.monstie-box.clickable {
+  box-sizing: border-box;
+  background-color: #ECDDB2;
+  width: 80%;
+  border-radius: 10px;
+  padding: 0.3em 0;
+  justify-content: center;
 }
 
 .add-monstie-button {
@@ -166,7 +187,95 @@ h1 {
   padding: 0;
 }
 
-/* Forms */
+.add-monstie-button:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* --------- Edit Monstie page --------- */
+#edit-monstie-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+#edit-monstie-box {
+  display: grid;
+  grid-template-columns: 35% 65%;
+  align-items: center;
+}
+
+#monstie-name-and-img img {
+  padding: 0.5em;
+  background-color: #271F12;
+}
+
+#monstie-name-and-img h2 {
+  margin-top: 0;
+}
+
+#monstie-stats {
+  font-size: 1.1em;
+  text-align: center;
+  list-style: none;
+  padding: 0 0.3em;
+}
+
+#monstie-stats li {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 5px;
+  background-color: #EDDAAF;
+  border-radius: 20px;
+  margin: 5px 0;
+}
+
+#monstie-stats li span:first-of-type {
+  color: #EDDAAF;
+  background-color: #543A09;
+  border-radius: 20px;
+  padding: 2px 0;
+}
+
+#monstie-stats li span:last-of-type {
+  text-align: end;
+  padding: 2px 0.5em 2px 0;
+}
+
+#monstie-genes {
+  grid-column: span 2;
+  height: 350px;
+  display: grid;
+  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+  column-gap: 10px;
+  row-gap: 10px;
+}
+
+.add-gene-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #543A09;
+  border-radius: 100px;
+}
+
+#edit-monstie-wrapper > button {
+  width: 50%;
+  margin: 1em 0;
+  align-self: center;
+}
+
+#delete-monstie {
+  background-color: red;
+  color: white;
+}
+
+#delete-monstie:hover {
+  background-color: #c0392b;
+}
+
+/* ------------------ Components ------------------ */
+
+/* --------- Forms --------- */
 form {
   display: flex;
   flex-direction: column;
@@ -190,7 +299,7 @@ form h3 {
   margin-bottom: 0; 
 }
 
-/* Monstie Filter Modal */
+/* --------- Monstie Filter Modal --------- */
 
 .monstie-modal-overlay {
   position: fixed;
@@ -302,7 +411,6 @@ form h3 {
   border: none;
   padding: 10px 20px;
   border-radius: 4px;
-  cursor: pointer;
   position: absolute;
   top: 10px;
   right: 10px;

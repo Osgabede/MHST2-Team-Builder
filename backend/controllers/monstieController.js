@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 // ---------- GET all monsties ----------
 const getMonsties = async (req, res) => {
   // find with empty object for all monsties and name: 1 for descending order
-  const monsties = await Monstie.find().sort({name: 1}).populate('genes');
+  const monsties = await Monstie.find().sort({name: 1});
 
   // returns all monsties
   res.status(200).json(monsties);
@@ -19,7 +19,7 @@ const getMonstie = async (req, res) => {
     return res.status(404).json({error: 'Couldn\'t find monstie'});
   }
   // find with provided id
-  const monstie = await Monstie.findById(id).populate('genes');
+  const monstie = await Monstie.findById(id);
 
   // checks if monstie exists
   if (!monstie) {

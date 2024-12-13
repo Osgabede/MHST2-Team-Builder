@@ -217,6 +217,46 @@ const deleteUserTeam = async (req, res) => {
   }
 }
 
+// ---------- DELETE a Monstie from a User Team ----------
+const deleteMonstieInUserTeam = async (req, res) => {
+  const { userId, teamId, monstieId } = req.params;
+
+  try {
+    // Validate user ID, team ID, and monstie ID
+    if (!mongoose.Types.ObjectId.isValid(userId) || !mongoose.Types.ObjectId.isValid(teamId) || !mongoose.Types.ObjectId.isValid(monstieId)) {
+      return res.status(400).json({ error: 'Invalid user, team, or monstie ID' });
+    }
+
+    // Find the team and check if it belongs to the user
+    const team = await Team.findOne({ _id: teamId, userId: userId });
+
+    if (!team) {
+      return res.status(404).json({ error: 'Team not found or does not belong to this user' });
+    }
+
+    // Find the monstie inside the team
+    const monstieIndex = team.monsties.findIndex(monstie => monstie._id.toString() === monstieId);
+
+    if (monstieIndex === -1) {
+      return res.status(404).json({ error: 'Monstie not found in this team' });
+    }
+
+    // Remove the monstie from the team
+    team.monsties.splice(monstieIndex, 1);
+
+    // Save the updated team
+    await team.save();
+
+    // Populate the monsties array in the team before sending the response
+    const populatedTeam = await Team.findOne({ _id: teamId, userId: userId }).populate('monsties');
+
+    res.status(200).json({ message: 'Monstie successfully deleted from the team', team: populatedTeam});
+  } catch (error) {
+    console.error('Error deleting monstie from team:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+}
+
 // ---------- UPDATE a user ----------
 const updateUser = async (req, res) => {
   const { userId } = req.params;
@@ -281,9 +321,9 @@ module.exports = {
   createUser,
   createUserTeam,
   addMonstieToUserTeam,
-  addGeneToMonstieInUserTeam,
   loginUser,
   deleteUser,
   deleteUserTeam,
+  deleteMonstieInUserTeam,
   updateUser
 }

@@ -16,11 +16,6 @@ const TeamCard = ({ team, onClick, isSelected, onAddMonstieClick, onDeleteTeamCl
     <div className={`team-box ${isSelected ? 'selected' : 'blue-on-hover'}`} onClick={onClick}>
       <div className="team-title">
         <h2>{team.name}</h2>
-        {showEditButtons && (
-          <button aria-label="EditTeamName" className="edit-team-name-button">
-            <i className="fas fa-pencil-alt"></i>
-          </button>
-        )}
       </div>
       {Array.from({ length: 6 }).map((_, index) => {
         if (team.monsties[index]) {
