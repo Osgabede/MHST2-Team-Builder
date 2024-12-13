@@ -419,3 +419,29 @@ form h3 {
 .monstie-modal button:hover {
   background-color: #c0392b; 
 }
+
+@media (max-width: 600px) {
+  #teams-box-wrapper {
+    height: 70vh;
+  }
+
+  .team-box.selected {
+    height: 60vh;
+  }
+
+  .team-title h2 {
+    font-size: 1.2em;
+  }
+
+  .monstie-box.clickable {
+    margin-top: 0.3em;
+    font-size: 1em;
+  }
+
+  #monstie-genes {
+    font-size: 0.8em;
+    height: 30vh;
+    width: 55%;
+    justify-self: center;
+  }
+}
