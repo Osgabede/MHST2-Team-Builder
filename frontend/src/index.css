@@ -1,8 +1,10 @@
-/* global css */
+/* Global */
+
 html {
   display: grid;
   place-content: center;
   background-color: black;
+  font-family: 'Monster Hunter Staggered', sans-serif;
 }
 
 body {
@@ -12,9 +14,19 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: greenyellow;
+  background-color: #D6B783;
   text-align: center;
   margin: 0;
+  padding: 0 1em;
+}
+
+#root {
+  width: 100%;
+}
+
+.App {
+  height: 100vh;
+  overflow: hidden;
 }
 
 .title {
@@ -27,7 +39,243 @@ h1 {
   column-gap: 0.5em;
 }
 
-/* forms css */
+.display-none {
+  display: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ------------------ PAGES ------------------ */
+
+/* --------- Teams page --------- */
+
+#teams > h2 {
+  margin-top: 0px;
+}
+
+#no-teams-message {
+  font-size: 1.5em;
+  font-weight: 700;
+  grid-column: span 2;
+}
+
+#teams-box-wrapper {
+  height: 630px;
+  overflow: auto;
+}
+
+#teams-box {
+  width: 100%;
+  text-align: center;
+  display: grid;
+  grid-template: repeat(3, auto) / repeat(2, 1fr);
+  gap: 1em;
+}
+
+.team-box {
+  display: grid;
+  grid-template: auto repeat(3, 1fr) / repeat(2, 1fr);
+  text-align: center;
+  height: 320px;
+  border: 2px solid #543A09;
+  border-radius: 12px;
+  background-color: #DFC79B;
+  justify-items: center;
+}
+
+#delete-team {
+  height: min-content;
+  margin: 1em auto;
+  background-color: red;
+  color: white;
+  grid-row: 5;
+  grid-column: span 2;
+}
+
+#delete-team:hover {
+  background-color: #c0392b;
+}
+
+.blue-on-hover:hover {
+  color: blue;
+  border-color: blue;
+}
+
+.team-title {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  width: 100%;
+  grid-column: span 2;
+  align-items: end;
+  justify-items: center;
+}
+
+.team-title h2 {
+  grid-column: 2;
+  margin: 1em 10px 0;
+}
+
+.monstie-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: black;
+  margin-top: 1em;
+}
+
+.monstie-box img {
+  width: 3em;
+  padding: 0.2em;
+  background-color: #2A261B;
+}
+
+#create-team-button {
+  margin-top: 1em;
+}
+
+/* --------- Edit Team page --------- */
+
+#edit-team > h2 {
+  margin-top: 0px;
+}
+
+#edit-team > button {
+  width: 40%;
+  margin: 2em auto;
+}
+
+.edit-team-name-button {
+  font-size: 0.8em;
+  background-color:#805e1f;
+  height: 30px;
+  width: 30px;
+  justify-self: start;
+  padding: 0;
+}
+
+.team-box.selected {
+  height: 550px;
+}
+
+.team-box.selected .monstie-box, .team-box.selected .team-title {
+  font-size: 1.3em;
+}
+
+.monstie-box.clickable {
+  box-sizing: border-box;
+  background-color: #ECDDB2;
+  width: 80%;
+  border-radius: 10px;
+  padding: 0.3em 0;
+  justify-content: center;
+}
+
+.add-monstie-button {
+  align-self: center;
+  font-size: 3em;
+  border-width: 0;
+  background-color: inherit;
+  height: 30px;
+  line-height: 0;
+  padding: 0;
+}
+
+.add-monstie-button:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* --------- Edit Monstie page --------- */
+#edit-monstie-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+#edit-monstie-box {
+  display: grid;
+  grid-template-columns: 35% 65%;
+  align-items: center;
+}
+
+#monstie-name-and-img img {
+  padding: 0.5em;
+  background-color: #271F12;
+}
+
+#monstie-name-and-img h2 {
+  margin-top: 0;
+}
+
+#monstie-stats {
+  font-size: 1.1em;
+  text-align: center;
+  list-style: none;
+  padding: 0 0.3em;
+}
+
+#monstie-stats li {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 5px;
+  background-color: #EDDAAF;
+  border-radius: 20px;
+  margin: 5px 0;
+}
+
+#monstie-stats li span:first-of-type {
+  color: #EDDAAF;
+  background-color: #543A09;
+  border-radius: 20px;
+  padding: 2px 0;
+}
+
+#monstie-stats li span:last-of-type {
+  text-align: end;
+  padding: 2px 0.5em 2px 0;
+}
+
+#monstie-genes {
+  grid-column: span 2;
+  height: 350px;
+  display: grid;
+  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+  column-gap: 10px;
+  row-gap: 10px;
+}
+
+.add-gene-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #543A09;
+  border-radius: 100px;
+}
+
+#edit-monstie-wrapper > button {
+  width: 50%;
+  margin: 1em 0;
+  align-self: center;
+}
+
+#delete-monstie {
+  background-color: red;
+  color: white;
+}
+
+#delete-monstie:hover {
+  background-color: #c0392b;
+}
+
+/* ------------------ Components ------------------ */
+
+/* --------- Forms --------- */
 form {
   display: flex;
   flex-direction: column;
@@ -49,4 +297,125 @@ form h3 {
 .error-message {
   color: red;
   margin-bottom: 0; 
+}
+
+/* --------- Monstie Filter Modal --------- */
+
+.monstie-modal-overlay {
+  position: fixed;
+  top: 0;
+  width: 382px;
+  height: 100%;
+  margin-left: -16px;
+  background-color: rgba(0, 0, 0, 0.7); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.monstie-modal {
+  box-sizing: border-box;
+  background-color: #ffffff; 
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 90%;
+  height: 50%;
+  max-width: 600px;
+  position: relative;
+}
+
+.monstie-modal h3 {
+  margin-top: 0;
+}
+
+.monstie-modal input,
+.monstie-modal select {
+  box-sizing: content-box;
+  margin-bottom: 10px;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.monstie-modal input {
+  width: 90%;
+}
+
+.monstie-modal select {
+  width: 40%;
+}
+
+.monstie-modal select:first-of-type {
+  margin-right: 5px;
+}
+
+.monstie-modal select:last-of-type {
+  margin-left: 5px;
+}
+
+#filtered-list-wrapper {
+  max-height: 65%;
+  width: 100%;
+  overflow: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+#filtered-list-wrapper::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}
+
+.monstie-list {
+  display: grid;
+  grid-template-columns: repeat(2, 50%);
+  list-style: none; 
+  padding: 0;
+  margin: 0;
+}
+
+.monstie-list-item {
+  display: flex;
+  align-items: center;
+  background-color: inherit;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  padding: 10px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.monstie-list-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.monstie-image {
+  width: 50px; /* Adjust size as needed */
+  height: 50px;
+  border-radius: 4px; /* Rounded corners for the image */
+  object-fit: cover; /* Ensures the image fits within the dimensions */
+  margin-right: 10px;
+}
+
+.monstie-name {
+  font-size: 16px;
+  color: #333;
+}
+
+.monstie-modal button {
+  background-color: #e74c3c; 
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.monstie-modal button:hover {
+  background-color: #c0392b; 
 }

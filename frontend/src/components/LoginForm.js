@@ -25,7 +25,7 @@ const LoginForm = () => {
 
     if (!emptyFields) {
       // Proceed with the login request if no fields are empty
-      const response = await fetch('http://localhost:4000/api/users/login', {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -41,7 +41,6 @@ const LoginForm = () => {
         setUsername('');
         setPassword('');
         setError('');
-        console.log('Login successful', json);
 
         // Redirect to the Teams page
         navigate('/Teams/' + json.user.username);

@@ -1,1 +1,3 @@
 backend/.env
+backend/inserter.js
+backend/updateImages.js

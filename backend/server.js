@@ -13,11 +13,16 @@ const requireAuth = require('./middlewares/userAuthMiddleware'); // Import the a
 const app = express();
 
 // Middleware
+const allowedOrigins = [
+  'https://mhst2-team-builder-frontend.onrender.com',
+  'http://localhost:3000'
+];
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: allowedOrigins,
   methods: 'GET, POST, DELETE, PATCH, PUT',
   credentials: true,
 }));
+
 app.use(express.json());
 app.use((req, res, next) => {
   console.log(req.path, req.method);
