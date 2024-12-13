@@ -36,6 +36,8 @@ const Teams = () => {
     fetchTeams();
   }, [auth, navigate]);
 
+  // ---------------------- Create Team function ----------------------
+
   const handleCreateTeam = async () => {
     const teamName = prompt('Enter the name of the new team:'); // TO FEAT: Make this open a modal to insert the name
 
@@ -68,6 +70,31 @@ const Teams = () => {
     }
   };
 
+  // ---------------------- Delete Team function ----------------------
+
+  const handleDeleteTeam = async (teamId) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/users/${auth.user._id}/teams/${teamId}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${auth.token}`,
+        },
+      });
+  
+      if (response.ok) {
+        setTeams((prevTeams) => prevTeams.filter((team) => team._id !== teamId)); // Update the UI
+      } else {
+        const data = await response.json();
+        console.error('Error deleting team:', data.error);
+      }
+    } catch (error) {
+      console.error('Error deleting team:', error);
+    }
+  };
+  
+
+  // ---------------------- Team Box Click function ----------------------
+
   const handleTeamClick = (team) => {
     setSelectedTeam(team); // Update state to set the selected team
     const formattedName = team.name.replace(/ /g, '_');
@@ -85,7 +112,7 @@ const Teams = () => {
       <div id="teams-box-wrapper">
         <div id="teams-box">
           {teams.length === 0 ? (
-            <p>You don't have any teams yet.</p>
+            <p id="no-teams-message">You don't have any teams yet.</p>
           ) : (
             teams.map((team) => (
               <TeamCard
@@ -93,6 +120,7 @@ const Teams = () => {
                 team={team}
                 onClick={() => handleTeamClick(team)}
                 isSelected={selectedTeam && selectedTeam._id === team._id}
+                onDeleteTeamClick={() => handleDeleteTeam(team._id)}
               />
             ))
           )}

@@ -190,6 +190,33 @@ const deleteUser = async (req, res) => {
   res.status(200).json(user);
 }
 
+// ---------- DELETE a user Team ----------
+const deleteUserTeam = async (req, res) => {
+  const { userId, teamId } = req.params;
+
+  try {
+    // Validate user ID and team ID
+    if (!mongoose.Types.ObjectId.isValid(userId) || !mongoose.Types.ObjectId.isValid(teamId)) {
+      return res.status(400).json({ error: 'Invalid user or team ID' });
+    }
+
+    // Find the team and check if it belongs to the user
+    const team = await Team.findOne({ _id: teamId, userId: userId });
+
+    if (!team) {
+      return res.status(404).json({ error: 'Team not found or does not belong to this user' });
+    }
+
+    // Delete the team
+    await Team.deleteOne({ _id: teamId });
+
+    res.status(200).json({ message: 'Team successfully deleted' });
+  } catch (error) {
+    console.error('Error deleting team:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+}
+
 // ---------- UPDATE a user ----------
 const updateUser = async (req, res) => {
   const { userId } = req.params;
@@ -254,7 +281,9 @@ module.exports = {
   createUser,
   createUserTeam,
   addMonstieToUserTeam,
+  addGeneToMonstieInUserTeam,
   loginUser,
   deleteUser,
+  deleteUserTeam,
   updateUser
 }

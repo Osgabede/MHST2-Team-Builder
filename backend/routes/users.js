@@ -6,8 +6,10 @@ const {
   createUser,
   createUserTeam,
   addMonstieToUserTeam,
+  addGeneToMonstieInUserTeam,
   loginUser,
   deleteUser,
+  deleteUserTeam,
   updateUser
 } = require('../controllers/userController');
 
@@ -32,11 +34,17 @@ router.post('/:userId/teams', createUserTeam);
 // POST a new Monstie in a specific User Team
 router.post('/:userId/teams/:teamId/monsties', addMonstieToUserTeam);
 
+// POST a new Gene in a specific Monstie in a specific User Team
+router.post('/:userId/teams/:teamId/:monstieId', addGeneToMonstieInUserTeam);
+
 // LOGIN a User
 router.post('/login', loginUser);
 
 // DELETE a User
 router.delete('/:userId', deleteUser);
+
+// DELETE a specific Team for a specific User
+router.delete('/:userId/teams/:teamId', deleteUserTeam);
 
 // UPDATE a User
 router.patch('/:userId', updateUser);

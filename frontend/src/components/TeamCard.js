@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import MonstieBox from './MonstieBox';
 
-const TeamCard = ({ team, onClick, isSelected, onAddMonstieClick }) => {
+const TeamCard = ({ team, onClick, isSelected, onAddMonstieClick, onDeleteTeamClick, onMonstieClick }) => {
   const [showEditButtons, setShowEditButtons] = useState(false);
 
   useEffect(() => {
@@ -29,6 +29,7 @@ const TeamCard = ({ team, onClick, isSelected, onAddMonstieClick }) => {
               key={`monstie-${team.monsties[index]._id || index}`} 
               monstie={team.monsties[index]} 
               isSelected={isSelected}
+              onMonstieClick={onMonstieClick}
             />
           );
         } else {
@@ -45,7 +46,13 @@ const TeamCard = ({ team, onClick, isSelected, onAddMonstieClick }) => {
           );
         }
       })}
-      <button id="delete-team">Delete Team</button>
+      <button 
+        id="delete-team" 
+        onClick={(e) => {
+          e.stopPropagation();
+          onDeleteTeamClick();
+        }}
+      >Delete Team</button>
     </div>
   );
 };

@@ -38,10 +38,34 @@ const EditTeam = () => {
     fetchMonsties();
   }, [location, navigate]);
 
+  // ------------------- Delete Team function -------------------
+  const handleDeleteTeam = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/users/${auth.user._id}/teams/${team._id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${auth.token}`,
+        },
+      });
+  
+      if (response.ok) {
+        setTeam(null);
+        navigate('/Teams/' + auth.user.username, { replace: true }); // Redirect the user after successful deletion
+      } else {
+        const data = await response.json();
+        console.error('Error deleting team:', data.error);
+      }
+    } catch (error) {
+      console.error('Error deleting team:', error);
+    }
+  };
+  
+  // ------------------- Add Monstie function -------------------
   const handleAddMonstieClick = () => {
     setIsModalOpen(true);
   };
 
+  // ------------------- Add Monstie function -------------------
   const handleSelectMonstie = async (selectedMonstie) => {
     
     try {
@@ -69,6 +93,17 @@ const EditTeam = () => {
     setIsModalOpen(false); // Close the modal
   };
 
+  // ------------------- Navigate back function -------------------
+  const backToTeamsPage = () => {
+    navigate('/Teams/' + auth.user.username);
+  }
+
+  // ------------------- Edit Monstie function -------------------
+  const handleEditMonstie = (monstie) => {
+    const formattedName = team.name.replace(/ /g, '_');
+    navigate('/Teams/' + auth.user.username + "/" + formattedName + "/" + monstie.name, { state: { monstie }});
+  }
+
   if (!team) {
     return <div>Loading...</div>; // Display a loading message while the team is being fetched
   }
@@ -79,11 +114,13 @@ const EditTeam = () => {
       <p>Click on any monstie to edit it</p>
       <TeamCard
         team={team}
-        onClick={() => {}}
-        isSelected={true} // Mark as selected or set your own logic
-        onAddMonstieClick={handleAddMonstieClick} // Pass function to handle click event
+        onClick={() => {}} // empty the onClick function
+        isSelected={true} // Mark as selected
+        onAddMonstieClick={handleAddMonstieClick} 
+        onDeleteTeamClick={handleDeleteTeam}
+        onMonstieClick={handleEditMonstie}
       />
-      <button id="back-to-teams">Back to Teams page</button>
+      <button id="back-to-teams" onClick={() => backToTeamsPage()}>Back to Teams page</button>
       <MonstieModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
